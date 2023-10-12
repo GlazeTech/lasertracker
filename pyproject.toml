@@ -1,0 +1,54 @@
+[tool.poetry]
+name = "lasertracker"
+version = "0.1.0"
+description = "Python API to track a laserpointer in a video."
+authors = ["Bjørn Mølvig <bjoernmoelvig@gmail.com>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = ">=3.9,<3.13"
+opencv-python = "^4.8.1.78"
+numpy = "^1.26.0"
+
+[tool.poetry.group.dev.dependencies]
+pytest = "^7.4.2"
+ruff = "^0.0.292"
+mypy = "^1.6.0"
+black = "^23.9.1"
+
+[tool.mypy]
+# from https://careers.wolt.com/en/blog/tech/professional-grade-mypy-configuration & https://docs.pydantic.dev/latest/integrations/mypy/
+disallow_any_unimported = true
+warn_redundant_casts = true
+warn_unused_ignores = true
+warn_return_any = true
+disallow_any_generics = true
+check_untyped_defs = true
+no_implicit_reexport = true
+no_implicit_optional = true
+disallow_untyped_defs = true
+show_error_codes = true
+
+[tool.ruff]
+line-length = 88
+target-version = "py311"
+# select = ["ALL"]
+ignore = ["D100", "D104"]
+
+[tool.ruff.per-file-ignores]
+# from https://github.com/astral-sh/ruff/issues/4368
+"tests/**/*.py" = [
+    "S101",    # asserts allowed in tests...
+    "ARG",     # Unused function args -> fixtures nevertheless are functionally relevant...
+    "FBT",     # Don't care about booleans as positional arguments in tests, e.g. via @pytest.mark.parametrize()
+    "PLR2004", # Magic value used in comparison
+    "S311",    # Standard pseudo-random generators are not suitable for cryptographic purposes
+]
+
+[tool.black]
+line-length = 88
+target-version = ["py311"]
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
