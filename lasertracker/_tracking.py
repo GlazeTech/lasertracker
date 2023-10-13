@@ -65,7 +65,7 @@ def find_laserdot_singleframe(channel: MatLike) -> Point:
     return Point(int(x), int(y))
 
 
-def find_red_laserdots(video_path: Path, downscale: int = 1) -> list[Point]:
+def find_red_laserdots(video_path: str, downscale: int = 1) -> list[Point]:
     """Tracks a red laserdot in a movie.
 
     Args:
@@ -75,7 +75,7 @@ def find_red_laserdots(video_path: Path, downscale: int = 1) -> list[Point]:
     Returns:
         list[Point]: Pixel-values for each frame of the found laserdots
     """
-    movie = _load_video(video_path)
+    movie = _load_video(Path(video_path))
     tracked_points: list[Point] = []
     while movie.isOpened():
         read_correctly, frame = movie.read()
@@ -87,7 +87,7 @@ def find_red_laserdots(video_path: Path, downscale: int = 1) -> list[Point]:
 
 
 def make_tracked_video(
-    video_path: Path,
+    video_path: str,
     output_name: str = "tracked_video",
     downscale: int = 1,
 ) -> None:
@@ -98,7 +98,7 @@ def make_tracked_video(
         output_name (str, optional): Name of output video with tracked laser. Defaults to "tracked_video".
         downscale (int, optional): Number to downscale videosize with for faster analysis, but less precise results. Defaults to 1.
     """
-    movie = _load_video(video_path)
+    movie = _load_video(Path(video_path))
 
     output_video = cv2.VideoWriter(
         f"{output_name}.mp4",
